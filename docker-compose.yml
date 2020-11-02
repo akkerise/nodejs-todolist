@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+   db:
+     image: postgres:13-alpine
+     volumes:
+       - ./db:/var/lib/postgresql/data
+       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+     environment:
+       POSTGRES_PASSWORD: postgres
+
+   nodetodo:
+     depends_on:
+       - db
+     image: calc:v3
+     ports:
+       - "8000:8080"
